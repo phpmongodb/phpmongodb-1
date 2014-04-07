@@ -48,7 +48,7 @@ class CHttp {
      */
     public function getParam($name, $value = null) {
         $param= isset($_GET[$name]) ? $_GET[$name] : (isset($_POST[$name]) ? $_POST[$name] : $value);
-        if($this->XSS){
+        if($this->XSS && is_string($param)){
             $param=strip_tags($param);
         }
         return $param;

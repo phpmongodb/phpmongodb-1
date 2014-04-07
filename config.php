@@ -22,7 +22,7 @@ class Config {
         'timeout'=>0,
     );
     public static $authentication = array(
-        'authentication'=>true,
+        'authentication'=>false,
         'user' => 'admin',
         'password' => 'admin'
     );
