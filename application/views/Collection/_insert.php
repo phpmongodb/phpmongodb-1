@@ -1,4 +1,4 @@
-<div class="well" id="container-insert" style="display:none">
+<div class="well" id="container-insert" style="<?php echo isset($this->data['isAjax'])?'display:block':'display:none';?>">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#keyValue" data-toggle="tab"><?php I18n::p('F_V');?></a></li>
         <li ><a href="#Array" data-toggle="tab"><?php I18n::p('Array');?></a></li>

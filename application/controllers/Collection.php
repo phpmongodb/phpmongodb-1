@@ -62,7 +62,8 @@ class CollectionController extends Controller {
             $this->gotoDatabse();
         }
         $this->application->view = 'Collection';
-        $this->display('insert', array());
+        $data=array('isAjax'=>$this->request->isAjax());
+        $this->display('insert',$data);
     }
 
     public function Indexes() {
