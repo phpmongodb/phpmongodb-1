@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Nanhe Kumar <nanhe.kumar@fabfurnish.com>
+ * @author Nanhe Kumar <nanhe.kumar@gmail.com>
  * @version 1.0.0
  * @package PHPMongoDB
  */
