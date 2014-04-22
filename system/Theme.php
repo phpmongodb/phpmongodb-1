@@ -93,7 +93,7 @@ class Theme {
     }
 
     public static function paginationURL($url, $start) {
-        $url.=(strpos($url, '?') !== false ? '&' : '?') . 'start=' . $start;
+        $url.=(strpos($url, '?') !== false ? '&' : '?') . 'start=' . $start.'&theme=true';
         return $url;
     }
 

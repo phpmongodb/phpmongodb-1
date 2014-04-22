@@ -165,6 +165,9 @@ class CollectionController extends Controller {
                 }
                 $sort[$orderBy[$i]] = (int) $orders[$i];
             }
+        }else{
+            //default sort order by DESC
+            $sort['_id']=-1;
         }
         return $sort;
     }
