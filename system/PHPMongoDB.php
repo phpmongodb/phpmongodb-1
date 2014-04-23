@@ -36,6 +36,7 @@ class PHPMongoDB {
         if($this->exception instanceof Exception){
             return $this->exception->getMessage() ;
         }
+        return FALSE;
     }
 
     /**

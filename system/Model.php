@@ -7,7 +7,11 @@ class Model {
     public function __construct() {
         
         $session=Application::getInstance('Session');
-        $this->mongo = PHPMongoDB::getInstance($session->server,$session->options)->getConnection();
+        $mongo = PHPMongoDB::getInstance($session->server,$session->options);
+        $exception=$mongo->getExceptionMessage();
+        if($exception)
+            exit($exception);
+        $this->mongo = $mongo->getConnection();
     }
 
     public function listDatabases() {
