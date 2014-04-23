@@ -15,7 +15,7 @@ class Model {
     }
 
     public function getMongoInfo() {
-        return $this->mongo->adimin->command(array('buildinfo' => true));
+        return $this->mongo->admin->command(array('buildinfo' => true));
     }
 
     public function renameCollection($oldCollecton, $newCollection, $dbFrom, $dbTo = false) {
