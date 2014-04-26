@@ -239,6 +239,8 @@ class CollectionController extends Controller {
             }
             if (isset($response) && $response['ok'] == 1) {
                 $this->message->sucess = I18n::t('U_S');
+            }else{
+                $this->message->error=$response['errmsg'];
             }
         }
 
