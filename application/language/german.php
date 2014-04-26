@@ -36,6 +36,7 @@ $language = array(
     'CAE_COL' => 'Neues Collection',
     'ATTRIBUTE' => 'Attribute',
     'VALUE' => 'Value',
+    'INVALID_DATA'=>'Ungültige Daten',
     //application/views/Index/index.php
     'W_S' => 'Web server',
     'PHP_V' => 'PHP version',

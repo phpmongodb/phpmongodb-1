@@ -233,11 +233,15 @@ class CollectionController extends Controller {
 
             if ($this->request->getParam('format') == 'array') {
                 $data = $cryptography->stringToArray($this->request->getParam('data'));
-                $response = $model->updateById($this->db, $this->collection, $id, $data, 'array', $idType);
+                if(is_array($data)){
+                    $response = $model->updateById($this->db, $this->collection, $id, $data, 'array', $idType);
+                }else {
+                 $response['errmsg']=I18n::t('INVALID_DATA');   
+                }
             } else if ($this->request->getParam('format') == 'json') {
                 $response = $model->updateById($this->db, $this->collection, $id, $this->request->getParam('data'), 'json', $idType);
             }
-            if (isset($response) && $response['ok'] == 1) {
+            if (isset($response['ok']) && $response['ok'] == 1) {
                 $this->message->sucess = I18n::t('U_S');
             }else{
                 $this->message->error=$response['errmsg'];
