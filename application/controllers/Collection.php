@@ -250,12 +250,15 @@ class CollectionController extends Controller {
 
         if (!empty($this->db) && !empty($this->collection) && !empty($id) && !empty($idType)) {
             $cursor = $model->findById($this->db, $this->collection, $id, $idType);
-            unset($cursor['_id']);
-
-            $record['json'] = $cryptography->arrayToJSON($cursor);
-            $record['array'] = $cryptography->arrayToString($cursor);
-            $this->application->view = 'Collection';
-            $this->display('edit', array('record' => $record, 'format' => $format, 'id' => $id));
+            if($cursor){
+                unset($cursor['_id']);
+                $record['json'] = $cryptography->arrayToJSON($cursor);
+                $record['array'] = $cryptography->arrayToString($cursor);
+                $this->application->view = 'Collection';
+                $this->display('edit', array('record' => $record, 'format' => $format, 'id' => $id));
+            }else{
+                  $this->message->error = I18n::t('INVALID_ID');
+            }
         } else {
             $this->url = "index.php";
             $this->request->redirect($this->url);
