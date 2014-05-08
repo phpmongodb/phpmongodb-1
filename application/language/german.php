@@ -37,6 +37,7 @@ $language = array(
     'ATTRIBUTE' => 'Attribute',
     'VALUE' => 'Value',
     'INVALID_DATA'=>'Ungültige Daten',
+    'INVALID_ID'=>'ungültig _id',
     //application/views/Index/index.php
     'W_S' => 'Web server',
     'PHP_V' => 'PHP version',

@@ -272,6 +272,8 @@ class CollectionController extends Controller {
             $response = $this->getModel()->removeById($this->db, $this->collection, $id, $idType);
             if ($response['n'] == 1 && $response['ok'] == 1) {
                 $this->message->sucess = I18n::t('R_S_D');
+            }else{
+                $this->message->error = I18n::t('INVALID_ID');
             }
             $this->url = Theme::URL('Collection/Record', array('db' => $this->db, 'collection' => $this->collection));
         } else {
