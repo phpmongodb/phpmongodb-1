@@ -806,3 +806,18 @@ table.table.list tr:first-child td {
 .bodymargin{
     margin-top: 40px;
 }
+ input[type="radio"], input[type="checkbox"] {
+   line-height: normal;
+   cursor: pointer;
+   margin: -6px 0px 0px;
+}
+.nav-sub-panel
+{
+    float: right; padding-right: 50px; margin-top: 15px;
+}
+.nav-sub-panel a{
+    display: block;padding-left: 20px;margin: 0 0 0 10px;
+}
+.nav-sub-panel label{
+float: left; color: #0088CC; cursor: pointer;
+}

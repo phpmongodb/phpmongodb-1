@@ -34,7 +34,7 @@
         </div>
         <div class="tab-pane fade" id="Array">
             <form id="tab2" method="post" action="index.php">
-                <textarea name="data" rows="3" class="input-xlarge" style="width:1000px;">array (
+                <textarea name="data" rows="16" class="input-xlarge" style="width:950px;">array (
 )</textarea>
                 <div>
                     <button class="btn btn-primary"><?php I18n::p('SAVE');?></button>
@@ -47,7 +47,7 @@
         </div>
         <div class="tab-pane fade" id="JSON">
             <form id="tab3" method="post" action="index.php">
-                <textarea name="data" rows="3" class="input-xlarge" style="width:1000px;">{
+                <textarea name="data" rows="16" class="input-xlarge" style="width:950px;">{
   
 }</textarea>
                 <div>

@@ -12,7 +12,7 @@
         <div class="tab-pane <?php echo $this->data['format'] === 'array' ? 'active in' : 'fade'; ?>" id="Array">
             <form id="tab2" method="post" action="index.php">
                 _id : <input type="text" name="id" id="id_edit" value="<?php echo "\n" . $this->data['id']; ?>" readonly="" class="input-xlarge" />
-                <textarea name="data" rows="4" class="input-xlarge" style="width:1000px;">
+                <textarea name="data" rows="16" class="input-xlarge" style="width:950px;">
 <?php echo "\n" . $this->data['record']['array']; ?>
                 </textarea>
                 <div>
@@ -29,7 +29,7 @@
             <form id="tab3" method="post" action="index.php">
                 _id : <input type="text" name="id" id="id_edit" value="<?php echo "\n" . $this->data['id']; ?>" readonly="" class="input-xlarge" />
 
-                <textarea name="data" rows="4" class="input-xlarge" style="width:1000px;">
+                <textarea name="data" rows="16" class="input-xlarge" style="width:950px;">
 <?php echo "\n" . $this->data['record']['json']; ?>
                 </textarea>
                 <div>
