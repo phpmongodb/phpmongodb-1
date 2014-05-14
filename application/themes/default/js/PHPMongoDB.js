@@ -3,17 +3,17 @@
  * 
  */
 function callAjax(url) {
-        url = url + '&theme=false'
-        $(document).ready(function() {
-            
-                $.get(url, function(data, status) {
-                   if(status=='success'){
-                     $( "#middle-content" ).html(data);  
-                   }
-                });
-           
-        })
-    }
+    url = url + '&theme=false'
+    $(document).ready(function() {
+
+        $.get(url, function(data, status) {
+            if (status == 'success') {
+                $("#middle-content").html(data);
+            }
+        });
+
+    })
+}
 //insert
 var PMDI = {
     appendTR: function() {
@@ -134,6 +134,36 @@ var PMDR = {
                 $("#li-document").addClass("active");
             }
 
+        });
+        //checkbox-remove select unselect checkbox
+        $('#check-all').click(function(event) {  //on click
+            if (this.checked) { // check select status
+                $('.checkbox-remove').each(function() { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox-remove"              
+                });
+            } else {
+                $('.checkbox-remove').each(function() { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox-remove"                      
+                });
+            }
+        });
+        $("#delete-all").click(function() {
+            var ids = [];
+            $('input[class="checkbox-remove"]:checked').each(function() {
+                ids.push(this.value);
+                
+            });
+            if(ids.length!=0){
+               
+                var db=$( "#db-hidden" ).val();
+                var collection=$("#collection-hidden" ).val();
+                $.post("index.php?load=Collection/DeleteRecords&type=multiple&theme=false", {ids:ids,db:db,collection:collection}, function(response) {
+                    if (response) {
+                           //$("#middle-content").html(response);
+                           location.reload();
+                    }
+                });
+            }
         });
     }
 }

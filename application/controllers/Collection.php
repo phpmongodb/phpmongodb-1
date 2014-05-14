@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package PHPmongoDB
  * @version 1.0.0
@@ -62,8 +63,8 @@ class CollectionController extends Controller {
             $this->gotoDatabse();
         }
         $this->application->view = 'Collection';
-        $data=array('isAjax'=>$this->request->isAjax());
-        $this->display('insert',$data);
+        $data = array('isAjax' => $this->request->isAjax());
+        $this->display('insert', $data);
     }
 
     public function Indexes() {
@@ -127,7 +128,6 @@ class CollectionController extends Controller {
         $this->request->redirect(Theme::URL('Collection/Indexes', array('db' => $this->db, 'collection' => $this->collection)));
     }
 
-
     protected function getQuery($query = array()) {
         $cryptography = new Cryptography();
         for ($ind = 0; $ind < count($query); $ind+=3) {
@@ -165,9 +165,9 @@ class CollectionController extends Controller {
                 }
                 $sort[$orderBy[$i]] = (int) $orders[$i];
             }
-        }else{
+        } else {
             //default sort order by DESC
-            $sort['_id']=-1;
+            $sort['_id'] = -1;
         }
         return $sort;
     }
@@ -177,10 +177,10 @@ class CollectionController extends Controller {
         $this->setCollection();
         $cryptography = new Cryptography();
         if ($this->validation($this->db, $this->collection)) {
-            $record=array();
+            $record = array();
             $skip = $this->request->getParam('start', 0);
             $limit = $this->request->getParam('limit', 10);
-            $type=$this->request->getParam('type','array');
+            $type = $this->request->getParam('type', 'array');
             $query = array();
             $fields = array();
 
@@ -193,24 +193,21 @@ class CollectionController extends Controller {
                         $query = $cryptography->stringToArray($this->request->getParam('query'));
                         break;
                     case 'json':
-                        $query=$this->request->getParam('query');
+                        $query = $this->request->getParam('query');
                         break;
                     default :
                         $query = array();
                         break;
                 }
-
-
-                
             }
-            if(!$this->isError()){
-            $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip,$type);
-            
-            $ordeBy = $this->getSort($this->request->getParam('order_by', false), $this->request->getParam('orders', false));
-            if ($ordeBy)
-                $cursor->sort($ordeBy);
+            if (!$this->isError()) {
+                $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type);
 
-            $record = $cryptography->decode($cursor,$type);
+                $ordeBy = $this->getSort($this->request->getParam('order_by', false), $this->request->getParam('orders', false));
+                if ($ordeBy)
+                    $cursor->sort($ordeBy);
+
+                $record = $cryptography->decode($cursor, $type);
             }
             $this->application->view = 'Collection';
             $format = array('json', 'array', 'document');
@@ -233,34 +230,57 @@ class CollectionController extends Controller {
 
             if ($this->request->getParam('format') == 'array') {
                 $data = $cryptography->stringToArray($this->request->getParam('data'));
-                if(is_array($data)){
+                if (is_array($data)) {
                     $response = $model->updateById($this->db, $this->collection, $id, $data, 'array', $idType);
-                }else {
-                 $response['errmsg']=I18n::t('INVALID_DATA');   
+                } else {
+                    $response['errmsg'] = I18n::t('INVALID_DATA');
                 }
             } else if ($this->request->getParam('format') == 'json') {
                 $response = $model->updateById($this->db, $this->collection, $id, $this->request->getParam('data'), 'json', $idType);
             }
             if (isset($response['ok']) && $response['ok'] == 1) {
                 $this->message->sucess = I18n::t('U_S');
-            }else{
-                $this->message->error=$response['errmsg'];
+            } else {
+                $this->message->error = $response['errmsg'];
             }
         }
 
         if (!empty($this->db) && !empty($this->collection) && !empty($id) && !empty($idType)) {
             $cursor = $model->findById($this->db, $this->collection, $id, $idType);
-            if($cursor){
+            if ($cursor) {
                 unset($cursor['_id']);
                 $record['json'] = $cryptography->arrayToJSON($cursor);
                 $record['array'] = $cryptography->arrayToString($cursor);
                 $this->application->view = 'Collection';
                 $this->display('edit', array('record' => $record, 'format' => $format, 'id' => $id));
-            }else{
-                  $this->message->error = I18n::t('INVALID_ID');
+            } else {
+                $this->message->error = I18n::t('INVALID_ID');
             }
         } else {
             $this->url = "index.php";
+            $this->request->redirect($this->url);
+        }
+    }
+
+    public function DeleteRecords() {
+        if ($this->request->isAjax()) {
+            $this->isReadonly();
+            $this->setDB();
+            $this->setCollection();
+            if ($this->request->getParam('type') == 'multiple') {
+                $ids = $this->request->getParam('ids');
+                foreach ($ids as $id) {
+                    $response = $this->getModel()->removeById($this->db, $this->collection, $id);
+                    if ($response['n'] == 1 && $response['ok'] == 1) {
+                        $this->message->sucess = I18n::t('R_S_D');
+                    } else {
+                        $this->message->error = I18n::t('INVALID_ID');
+                    }
+                }
+            }
+            exit();
+        }else{
+            $this->url = Theme::URL('Collection/Record', array('db' => $this->db, 'collection' => $this->collection));
             $this->request->redirect($this->url);
         }
     }
@@ -275,7 +295,7 @@ class CollectionController extends Controller {
             $response = $this->getModel()->removeById($this->db, $this->collection, $id, $idType);
             if ($response['n'] == 1 && $response['ok'] == 1) {
                 $this->message->sucess = I18n::t('R_S_D');
-            }else{
+            } else {
                 $this->message->error = I18n::t('INVALID_ID');
             }
             $this->url = Theme::URL('Collection/Record', array('db' => $this->db, 'collection' => $this->collection));
@@ -559,6 +579,7 @@ class CollectionController extends Controller {
         $this->setCollection();
         $this->display('search');
     }
+
     /**
      * @author Nanhe Kumar <nanhe.kumar@gmail.com>
      * @access protected

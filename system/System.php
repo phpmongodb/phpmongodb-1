@@ -52,7 +52,7 @@ class System {
     }
     public function getTheme() {
         try {
-            $theme = getcwd() . '/application/themes/default/index.php';
+            $theme = getcwd() . '/application/themes/'.Config::$theme.'/index.php';
             if (!file_exists($theme)) {
                 throw new Exception('Controller cannot find the Theme file ' . $theme);
             } else {
