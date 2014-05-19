@@ -41,7 +41,13 @@ class CollectionController extends Controller {
             $collections = $model->listCollections($this->db, TRUE);
             $collectionList = array();
             foreach ($collections as $collection) {
-                $collectionList[] = array('name' => $collection->getName(), 'count' => $collection->count());
+                try {
+                    $count = $collection->count();
+                }
+                catch(Exception $e) {
+                    $count = "?";
+                }
+                $collectionList[] = array('name' => $collection->getName(), 'count' => $count);
             }
             //$this->debug($collectionList);
             $data = array(

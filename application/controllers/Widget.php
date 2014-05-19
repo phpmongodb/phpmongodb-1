@@ -6,6 +6,12 @@ class WidgetController extends Controller {
     public function getDBList(){
         $model=new Model();      
         $dbList= $model->listDatabases();
+        if(!$dbList) {
+            $session = Application::getInstance('Session');
+            $db = $session->options['db'];
+            $dbList['databases'] = [['name' => $db, 'noOfCollecton' => '?']];
+            return $dbList;
+        }
        foreach ($dbList['databases'] as $k=>$db) {
            $dbList['databases'][$k]['noOfCollecton'] =count($model->listCollections($db['name'], TRUE));
        }
@@ -20,7 +26,13 @@ class WidgetController extends Controller {
            
             $collectionList = array();
             foreach ($collections as $collection) {
-                $collectionList[] = array('name' => $collection->getName(), 'count' => $collection->count());
+                try {
+                    $count = $collection->count();
+                }
+                catch(Exception $e) {
+                    $count = "?";
+                }
+                $collectionList[] = array('name' => $collection->getName(), 'count' => $count);
             }
             return $collectionList;
         } else {
