@@ -15,11 +15,23 @@ class Model {
     }
 
     public function listDatabases() {
-        return $this->mongo->admin->command(array("listDatabases" => 1));
+        try {
+            return $this->mongo->admin->command(array("listDatabases" => 1));
+        }
+        catch (MongoConnectionException $e) {
+            return NULL;
+        }
     }
 
     public function getMongoInfo() {
-        return $this->mongo->admin->command(array('buildinfo' => true));
+        try {
+            return $this->mongo->admin->command(array('buildinfo' => true));
+        }
+        catch (MongoConnectionException $e) {
+            return [
+                'version' => 'unknown (not admin)'
+            ];
+        }
     }
 
     public function renameCollection($oldCollecton, $newCollection, $dbFrom, $dbTo = false) {
