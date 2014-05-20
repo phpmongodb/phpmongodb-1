@@ -51,6 +51,13 @@ class Theme {
         }
         return self::$themeUri;
     }
+    public static function getVersion($file){
+       $file=getcwd().$file;
+       if (file_exists($file)) {
+           return filemtime($file);
+       }
+       return FALSE;
+    }
 
     public static function URL($load = 'Index/Index', $queryString = array()) {
         if (!self::$homeUri) {

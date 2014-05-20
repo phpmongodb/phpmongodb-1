@@ -11,7 +11,7 @@
 
         <link rel="stylesheet" type="text/css" href="<?php echo Theme::getPath(); ?>bootstrap/css/bootstrap.css">
 
-        <link rel="stylesheet" type="text/css" href="<?php echo Theme::getPath(); ?>css/style.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo Theme::getPath(); ?>css/style.css?v=<?php echo Theme::getVersion('/application/themes/default/css/style.css');?> ">
 
         <link rel="icon" href="<?php echo Theme::getPath(); ?>images/favicon.ico" type="image/x-icon" />
 

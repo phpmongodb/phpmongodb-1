@@ -1,6 +1,6 @@
 <?php defined('PMDDA') or die('Restricted access'); ?>
 <script src="<?php echo Theme::getPath(); ?>bootstrap/js/bootstrap.js"></script>
-<script src="<?php echo Theme::getPath(); ?>js/PHPMongoDB.js"></script>
+<script src="<?php echo Theme::getPath(); ?>js/PHPMongoDB.js?v=<?php echo Theme::getVersion('/application/themes/default/js/PHPMongoDB.js');?>"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function() {
