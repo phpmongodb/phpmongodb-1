@@ -1,5 +1,5 @@
 <div class="header">
-    <h1 class="page-title"><?php echo $this->db; ?></h1>
+    <h1 class="page-title"><i class="icon-database"></i><?php echo $this->db; ?></h1>
 </div>
 <div class="row-fluid">
     <div class="block span6">
