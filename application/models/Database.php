@@ -41,5 +41,13 @@ class Database extends Model {
     public function repair($db) {
         return $this->mongo->{$db}->repair();
     }
+    public function execute($db,$code,array $args = array()) {
+        try {
+        return $this->mongo->{$db}->execute($code);
+        } catch (Exception $e) {
+
+            return $e->getMessage();
+        }
+    }
 
 }
