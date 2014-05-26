@@ -25,12 +25,17 @@
         <div id="widget1container" class="block-body collapse in">
             <table class="table">
                 <tbody>
-                    <?php foreach($this->data['mongoinfo'] as $k=>$v){ ?>
+                    <?php 
+                    if(is_array($this->data['mongoinfo'])){
+                    foreach($this->data['mongoinfo'] as $k=>$v){ 
+                        ?>
                     <tr>
                         <td><?php echo $k;?></td>
                         <td><?php print_r($v);?></td>
                     </tr>
-                    <?php } ?>
+                    <?php 
+                    }                    
+                    } ?>
                 </tbody>
             </table>
         </div>

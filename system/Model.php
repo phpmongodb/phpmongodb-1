@@ -5,21 +5,29 @@ class Model {
     protected $mongo;
 
     public function __construct() {
-        
-        $session=Application::getInstance('Session');
-        $mongo = PHPMongoDB::getInstance($session->server,$session->options);
-        $exception=$mongo->getExceptionMessage();
-        if($exception)
+
+        $session = Application::getInstance('Session');
+        $mongo = PHPMongoDB::getInstance($session->server, $session->options);
+        $exception = $mongo->getExceptionMessage();
+        if ($exception)
             exit($exception);
         $this->mongo = $mongo->getConnection();
     }
 
     public function listDatabases() {
-        return $this->mongo->admin->command(array("listDatabases" => 1));
+        try {
+            return $this->mongo->admin->command(array("listDatabases" => 1));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function getMongoInfo() {
-        return $this->mongo->admin->command(array('buildinfo' => true));
+        try {
+            return $this->mongo->admin->command(array('buildinfo' => true));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function renameCollection($oldCollecton, $newCollection, $dbFrom, $dbTo = false) {
@@ -36,9 +44,12 @@ class Model {
     }
 
     public function copyDatabase($fromdb, $todb, $fromhost = 'localhost') {
-
-        $response = $this->mongo->admin->command(array('copydb' => 1, 'fromhost' => $fromhost, 'fromdb' => $fromdb, 'todb' => $todb));
-        return $response;
+        try {
+            $response = $this->mongo->admin->command(array('copydb' => 1, 'fromhost' => $fromhost, 'fromdb' => $fromdb, 'todb' => $todb));
+            return $response;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function __call($name, $arguments) {
@@ -89,8 +100,13 @@ class Model {
     }
 
     public function serverStatus() {
-        $response = $this->mongo->admin->command(array('serverStatus' => 1,));
-        return $response;
+        try {
+            $response = $this->mongo->admin->command(array('serverStatus' => 1,));
+            return $response;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+       
     }
 
 }

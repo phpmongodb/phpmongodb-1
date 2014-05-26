@@ -3,6 +3,7 @@
 
     <?php
     $dbList = Widget::get('DBList');
+    if (is_array($dbList['databases'])) {
     $chttp=new Chttp();
     $dbName = $chttp->getParam('db');
     if (empty($dbName)) {
@@ -48,5 +49,6 @@
                     }
                 }
             }
+    }
             ?>
 </div>
