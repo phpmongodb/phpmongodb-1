@@ -1,5 +1,5 @@
 <div class="header">
-    <h1 class="page-title"><?php echo $this->db; ?>(<?php echo $this->collection; ?>) </h1>
+    <h1 class="page-title"><a href="<?php echo Theme::URL('Collection/Index', array('db' => $this->db)); ?>"><?php echo $this->db; ?></a> (<?php echo $this->collection; ?>) </h1>
 </div>
 <div class="btn-toolbar">
 
