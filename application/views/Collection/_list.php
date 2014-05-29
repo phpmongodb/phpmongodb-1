@@ -1,9 +1,11 @@
+<?php if (!Application::isReadonly()) { ?>
 <div class="nav-sub-panel" >
     <label><input type="checkbox" name="check-all" id="check-all" value="" style="margin: 0"> Check All/ Uncheck All</label>
     <a class="icon-remove" title="Delete" href="javascript:void(0)" id="delete-all" >Delete</a>
     <input type="hidden" name="db-hidden" id="db-hidden" value="<?php echo $this->db;?>" />
     <input type="hidden" name="collection-hidden" id="collection-hidden" value="<?php echo $this->collection;?>" />
 </div> 
+<?php }?>
 <div class="well">
     <?php
     $showTab = true;
