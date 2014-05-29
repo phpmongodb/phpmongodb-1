@@ -11,7 +11,6 @@ class WidgetController extends Controller {
             foreach ($dbList['databases'] as $k => $db) {
                 $dbList['databases'][$k]['noOfCollecton'] = count($model->listCollections($db['name'], TRUE));
             }
-            $this->debug($dbList);
             return $dbList;
         }else{
             return Helper::getLoginDatabase();
