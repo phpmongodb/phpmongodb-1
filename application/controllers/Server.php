@@ -18,10 +18,13 @@ class ServerController extends Controller {
             $db = trim($this->request->getParam('db'));
             $response=$model->execute($db,$code);
         }
-        $databases=$model->listDatabases();
+        $dbList=$model->listDatabases();
+        if (!is_array($dbList['databases'])) {
+            $dbList=Helper::getLoginDatabase();
+        }
         
         $this->display('execute',array(
-                                        'databases'=>$databases,
+                                        'databases'=>$dbList,
                                         'code' =>isset($code)?$code:'db.getCollectionNames()',
                                         'response'=>$response
                                     )

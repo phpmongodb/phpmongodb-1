@@ -14,7 +14,7 @@
             foreach ($dbList['databases'] as $db) {
                 ?>
                 <a href="<?php echo Theme::URL('Collection/Index', array('db' => $db['name'])); ?>" class="nav-header" >
-                    <i class="icon-database"></i><?php echo $db['name']; ?><span class="label label-info"><?php echo $db['noOfCollecton'];?></span></a>
+                    <i class="icon-database"></i><?php echo $db['name']; ?><span class="label label-info"><?php echo !empty($db['noOfCollecton'])?$db['noOfCollecton']:'';?></span></a>
             <?php } ?>
 
 
