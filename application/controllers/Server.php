@@ -19,7 +19,7 @@ class ServerController extends Controller {
             $response=$model->execute($db,$code);
         }
         $dbList=$model->listDatabases();
-        if (isset($dbList['databases']) && !is_array($dbList['databases'])) {
+        if (!isset($dbList['databases'])) {
             $dbList=Helper::getLoginDatabase();
         }
         
