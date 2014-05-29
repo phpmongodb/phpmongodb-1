@@ -17,7 +17,7 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (is_array($this->data['dbList']['databases'])) {
+                    if (isset($this->data['dbList']['databases']) && is_array($this->data['dbList']['databases'])) {
                         foreach ($this->data['dbList']['databases'] as $db) {
                             ?>
                             <tr>
