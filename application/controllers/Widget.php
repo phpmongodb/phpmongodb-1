@@ -7,7 +7,7 @@ class WidgetController extends Controller {
     public function getDBList() {
         $model = new Model();
         $dbList = $model->listDatabases();
-        if (is_array($dbList['databases'])) {
+        if (isset($dbList['databases']) && is_array($dbList['databases'])) {
             foreach ($dbList['databases'] as $k => $db) {
                 $dbList['databases'][$k]['noOfCollecton'] = count($model->listCollections($db['name'], TRUE));
             }
