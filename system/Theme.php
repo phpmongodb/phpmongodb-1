@@ -33,14 +33,15 @@ class Theme {
 
     public static function __setHomeUri() {
         self::$homeUri = 'http';
+        $https = false;
         if (isset($_SERVER['HTTPS']) && $_SERVER["HTTPS"] == "on") {
-            $serverProtocol .= "s";
+            self::$homeUri .= "s";
+            $https = true;
         }
         self::$homeUri .= "://";
-        if ($_SERVER["SERVER_PORT"] != "80") {
-            self::$homeUri = $serverProtocol . $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
-        } else {
-            self::$homeUri .= $_SERVER["SERVER_NAME"];
+        self::$homeUri .= $_SERVER["SERVER_NAME"];
+        if ( (!$https && $_SERVER["SERVER_PORT"] != "80") || ($https && $_SERVER["SERVER_PORT"] != "443") ) {
+            self::$homeUri .= ":" . $_SERVER["SERVER_PORT"];
         }
         self::$homeUri.= str_replace('/index.php', '', $_SERVER['PHP_SELF']);
     }
