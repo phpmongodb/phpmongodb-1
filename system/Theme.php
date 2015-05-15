@@ -61,7 +61,7 @@ class Theme {
         if (!self::$homeUri) {
             self::__setThemeUri();
         }
-        $url = self::__setThemeUri() . 'index.php?load=' . $load;
+        $url = self::$homeUri . '/index.php?load=' . $load;
         if (is_array($queryString)) {
             foreach ($queryString as $k => $v) {
                 if(is_string($v))
