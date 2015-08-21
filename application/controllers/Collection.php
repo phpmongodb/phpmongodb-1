@@ -204,7 +204,7 @@ class CollectionController extends Controller {
                 $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type);
 
                 $ordeBy = $this->getSort($this->request->getParam('order_by', false), $this->request->getParam('orders', false));
-                if ($ordeBy)
+                if ($ordeBy && $cursor)
                     $cursor->sort($ordeBy);
 
                 $record = $cryptography->decode($cursor, $type);
