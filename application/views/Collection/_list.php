@@ -37,7 +37,11 @@
                     echo '&nbsp<a href="' . Theme::URL('Collection/DeleteRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '" class="icon-remove" title="Delete">' . I18n::t('') . '</a>';
                 }
                 echo "<pre>";
-                print_r($cursor);
+                if ($format == 'document') {
+                  echo htmlspecialchars(print_r($cursor, true));
+                } else {
+                  print_r($cursor);
+                }
                 echo "</pre>";
             }
             ?>
