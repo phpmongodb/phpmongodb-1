@@ -5,7 +5,7 @@
         <div class="block-body">
             <form id="tab2" method="post" action="index.php">
                 <label><?php I18n::p('USERNAME'); ?></label>
-                <input name="username" type="text" class="span12" autocomplete="<?php echo $autocomplete;?>">
+                <input name="username" type="text" class="span12" autocomplete="<?php echo $autocomplete;?>" autofocus>
                 <label><?php I18n::p('PASSWORD'); ?></label>
                 <input name="password" type="password" class="span12" value="" autocomplete="<?php echo $autocomplete;?>">
                 <?php
