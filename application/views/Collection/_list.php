@@ -36,7 +36,7 @@
                     echo '&nbsp<a href="javascript:void(0)"  onclick="callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'format' => $format, 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '\')" class="icon-edit" title="Edit">' . I18n::t('') . '</a>';
                     echo '&nbsp<a href="' . Theme::URL('Collection/DeleteRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '" class="icon-remove" title="Delete">' . I18n::t('') . '</a>';
                 }
-                echo '<pre style="cursor:pointer;" onclick="callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'format' => $format, 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '\')">';
+                echo '<pre style="cursor:pointer;" onclick="if(window.getSelection().toString() == \'\') { callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'format' => $format, 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '\') }">';
                 print_r($cursor);
                 echo "</pre>";
             }
