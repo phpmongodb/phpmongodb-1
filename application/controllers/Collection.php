@@ -458,7 +458,7 @@ class CollectionController extends Controller {
 
     protected function quickExport() {
         $cursor = $this->getModel()->find($this->db, $this->collection);
-        $file = new File('/tmp/', $this->collection . '.json');
+        $file = new File(sys_get_temp_dir(), $this->collection . '.json');
         $file->delete();
         $cryptography = new Cryptography();
         while ($cursor->hasNext()) {
@@ -481,7 +481,7 @@ class CollectionController extends Controller {
         $skip = $this->request->getParam('skip');
         $limit = empty($limit) ? false : $limit;
         $skip = empty($skip) ? false : $skip;
-        $path = '/tmp/';
+        $path = sys_get_temp_dir();
         $fileName = $this->request->getParam('file_name');
         $fileName = (empty($fileName) ? $this->collection : $fileName) . '.json';
         $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip);
