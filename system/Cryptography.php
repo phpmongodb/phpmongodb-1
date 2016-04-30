@@ -56,8 +56,10 @@ class Cryptography {
                 $string.="\"$key\"" . '=>' . $this->objectToString($value);
             } else if (is_numeric($value)) {
                 $string.="\"$key\"" . '=>' . $value;
+            } else if (is_bool($value)) {
+                $string.="\"$key\"" . '=>' . ($value ? 'true' : 'false');
             } else {
-                $string.="\"$key\"" . '=>' . "\"$value\"";
+                $string.="\"$key\"" . '=>' . "'".str_replace(array('\\', '\''), array('\\\\', '\\\''), $value)."'";
             }
             $string.=',';
         }
@@ -122,6 +124,8 @@ class Cryptography {
                     $value = $this->objectToJSON($value);
                 } else if (is_double($value)) {
                     $value = "NumberLong(" . addslashes($value) . ")";
+                } else if (is_bool($value)) {
+                      $value = $value ? 'true' : 'false';
                 } else if (!is_numeric($value) || is_string($value)) {
                     $value = "'" . addslashes($value) . "'";
                 }
@@ -139,6 +143,8 @@ class Cryptography {
                     $value = $this->arrayToJSON($value, "$tab\t");
                 } else if (is_object($value)) {
                     $value = $this->objectToJSON($value);
+                } else if (is_bool($value)) {
+                      $value = $value ? 'true' : 'false';
                 } else if (!is_numeric($value) || is_string($value)) {
                     $value = "'" . addslashes($value) . "'";
                 }
