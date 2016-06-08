@@ -49,5 +49,5 @@
     ?>
     
 </div>
-   
-<?php Theme::pagination($this->getModel()->totalRecord($this->db, $this->collection)); ?>
+
+<?php Theme::pagination($this->data['total']); ?>

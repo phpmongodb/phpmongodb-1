@@ -124,7 +124,6 @@ class CollectionController extends Controller {
         }
         $response = $this->getModel()->createIndex($this->db, $this->collection, $key, $options);
 
-        //$this->debug($response);
         $this->request->redirect(Theme::URL('Collection/Indexes', array('db' => $this->db, 'collection' => $this->collection)));
     }
 
@@ -151,7 +150,7 @@ class CollectionController extends Controller {
         }
         $query = $cryptography->executeAND($query);
         $query = $cryptography->executeOR($query);
-        //$this->debug($query);
+ 
         return $query[0];
     }
 
@@ -202,7 +201,7 @@ class CollectionController extends Controller {
             }
             if (!$this->isError()) {
                 $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type);
-
+                $total=$cursor->count();
                 $ordeBy = $this->getSort($this->request->getParam('order_by', false), $this->request->getParam('orders', false));
                 if ($ordeBy)
                     $cursor->sort($ordeBy);
@@ -211,7 +210,7 @@ class CollectionController extends Controller {
             }
             $this->application->view = 'Collection';
             $format = array('json', 'array', 'document');
-            $this->display('record', array('record' => $record, 'format' => $format));
+            $this->display('record', array('record' => $record, 'format' => $format,'total'=>$total));
         } else {
             $this->request->redirect($this->url);
         }
