@@ -10,7 +10,8 @@
         Database : <select style="width:auto;" name="db">
             <?php
             foreach ($this->data['databases']['databases'] as $db) {
-                echo '<option value="' . $db['name'] . '">' . $db['name'] . '</option>';
+                $selected= ($this->data['db']==$db['name']?'selected="selected"':'');
+                echo '<option value="' . $db['name'] . '" '.$selected.'>' . $db['name'] . '</option>';
             }
             ?>    
         </select>

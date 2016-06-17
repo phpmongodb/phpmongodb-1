@@ -26,7 +26,8 @@ class ServerController extends Controller {
         $this->display('execute',array(
                                         'databases'=>$dbList,
                                         'code' =>isset($code)?$code:'db.getCollectionNames()',
-                                        'response'=>$response
+                                        'response'=>$response,
+                                        'db'=>isset($db)?$db:''
                                     )
                 );
     }
