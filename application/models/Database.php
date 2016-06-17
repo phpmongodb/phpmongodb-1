@@ -43,7 +43,7 @@ class Database extends Model {
     }
     public function execute($db,$code,array $args = array()) {
         try {
-        return $this->mongo->{$db}->execute($code);
+        return $this->mongo->{$db}->execute($code,$args);
         } catch (Exception $e) {
 
             return $e->getMessage();
