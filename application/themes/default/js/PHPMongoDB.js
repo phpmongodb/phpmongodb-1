@@ -69,7 +69,7 @@ var PMDIN = {
     },
 }
 //indexes
-var PMDE = {
+var PMDIE = {
     init: function () {
         $("#custom_export").click(function () {
             $('#block_export_rows').slideDown();

@@ -68,7 +68,7 @@
 </form>    
 <script>
     $(document).ready(function() {
-       PMDE.init();
+        PMDIE.init();
     });
- </script>    
+</script>    
 <?php }?>
