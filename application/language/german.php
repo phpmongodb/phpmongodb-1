@@ -92,6 +92,7 @@ $language = array(
     'SIZE' => 'Size',
     'MAX' => 'Max',
     'CREATE' => 'Create',
+    'N_R_F'=>'Kein Eintrag gefunden',
     //application/views/Collection/indexes.php
     'UNIQUE' => 'Unique',
     'FIELDS' => 'Fields',

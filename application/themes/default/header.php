@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>PHPmongoDB </title>
+        <title>PHPmongoDB | MongoDB Admin Tool</title>
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="mongoDB">
@@ -52,7 +52,6 @@
     <!--[if (gt IE 9)|!(IE)]><!--> 
     <body class=""> 
         <!--<![endif]-->
-
         <div class="navbar">
             <div class="navbar-inner">
                 <ul class="nav pull-right">
@@ -67,14 +66,10 @@
                             <i class="icon-user"></i><?php echo I18n::t('LAN');?>
                             <i class="icon-caret-down"></i>
                         </a>
-
-                        
                         <ul class="dropdown-menu">
                             <?php
                                 $languageList = Widget::get('languageList');
                                 foreach($languageList as $key=>$val){
-                                    
-                                
                             ?>
                             <li><a tabindex="-1" href="<?php echo Theme::URL('Index/SetLanguage',array('language'=>$key)); ?>"><?php echo $val;?></a></li>
                             <?php }?>

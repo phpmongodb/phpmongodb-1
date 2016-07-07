@@ -179,12 +179,12 @@ class CollectionController extends Controller {
             $record = array();
             $skip = $this->request->getParam('start', 0);
             $limit = $this->request->getParam('limit', 10);
-            $type = $this->request->getParam('type', 'array');
+            $type = strtolower($this->request->getParam('type', 'array'));
             $query = array();
             $fields = array();
 
             if ($this->request->getParam('search', false) && $this->request->getParam('query', false)) {
-                switch (strtolower($this->request->getParam('type'))) {
+                switch ($type) {
                     case 'fieldvalue':
                         $query = $this->getQuery($this->request->getParam('query'));
                         break;
@@ -200,12 +200,14 @@ class CollectionController extends Controller {
                 }
             }
             if (!$this->isError()) {
-                $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type);
-                $total=$cursor->count();
                 $ordeBy = $this->getSort($this->request->getParam('order_by', false), $this->request->getParam('orders', false));
-                if ($ordeBy)
-                    $cursor->sort($ordeBy);
-
+                $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type,$ordeBy);
+                if($type=='json'){
+                    $total=$this->getModel()->totalRecord($this->db, $this->collection, $query,$type);
+                }else{
+                    $total=$cursor->count();
+                }
+                
                 $record = $cryptography->decode($cursor, $type);
             }
             $this->application->view = 'Collection';
@@ -305,7 +307,6 @@ class CollectionController extends Controller {
     }
 
     public function SaveRecord() {
-
         $this->setDB();
         $this->setCollection();
         if ($this->validation($this->db, $this->collection)) {

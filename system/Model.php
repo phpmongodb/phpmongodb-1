@@ -69,16 +69,16 @@ class Model {
 //    }
 
 
-    public function find($db, $collection, $query = array(), $fields = array(), $limit = false, $skip = false, $fromat = 'array') {
+    public function find($db, $collection, $query, $fields = array(), $limit = false, $skip = false, $fromat = 'array',$ordeBy=array('_id'=>1)) {
         try {
             if ($fromat == 'json') {
-                $code = "return db." . $collection . ".find(" . $query . ").limit(" . $limit . ").skip(" . $skip . ").toArray();";
+                $code = "return db.getCollection('" . $collection . "').find(" . $query . ").limit(" . $limit . ").skip(" . $skip . ").sort(".  json_encode($ordeBy).").toArray();";
                 $response = $this->mongo->{$db}->execute($code);
                 if ($response['ok'] == 1) {
                     return $response['retval'];
                 }
             } else {
-                return $this->mongo->{$db}->{$collection}->find($query, $fields)->limit($limit)->skip($skip);
+                return $this->mongo->{$db}->{$collection}->find($query, $fields)->limit($limit)->skip($skip)->sort($ordeBy);
             }
             return false;
         } catch (Exception $e) {

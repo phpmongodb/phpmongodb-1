@@ -36,10 +36,22 @@ class Collection extends Model {
         }
     }
 
-    public function totalRecord($db, $collection) {
-
+    public function totalRecord($db, $collection,$query=false,$fromat = 'array') {
         try {
-            return $this->mongo->{$db}->{$collection}->count();
+            if($fromat=='json'){
+                $code = "return db.getCollection('" . $collection . "').find(" . $query . ").count();";
+                $response = $this->mongo->{$db}->execute($code);
+                if ($response['ok'] == 1) {
+                    return $response['retval'];
+                }
+                return 10;//default limit
+            }else{
+                if(is_array($query)){
+                    return $this->mongo->{$db}->{$collection}->find($query)->count();
+                }else{
+                    return $this->mongo->{$db}->{$collection}->count();
+                }
+            }
         } catch (Exception $e) {
             exit($e->getMessage());
         }

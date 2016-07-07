@@ -1,4 +1,4 @@
-<?php if (!Application::isReadonly()) { ?>
+<?php if (!Application::isReadonly() && !empty($this->data['total'])) { ?>
 <div class="nav-sub-panel" >
     <label><input type="checkbox" name="check-all" id="check-all" value="" style="margin: 0"> Check All/ Uncheck All</label>
     <a class="icon-remove" title="Delete" href="javascript:void(0)" id="delete-all" >Delete</a>
@@ -49,6 +49,9 @@
             
         </div>
         <?php
+    }
+    if(empty($this->data['total'])){
+        echo I18n::p('N_R_F');
     }
     ?>
     
