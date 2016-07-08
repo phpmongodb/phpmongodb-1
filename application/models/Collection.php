@@ -86,15 +86,28 @@ class Collection extends Model {
     protected function getQueryForId($id, $idType = 'object', $fromat = 'array') {
         if ($fromat == 'json') {
 
-            if ($idType == 'object') {
+            if ($idType == 'MongoId') {
                 return '{"_id" : ObjectId("' . $id . '")}';
-            } else {
+            }elseif($idType == 'MongoDate'){
+                return '{"_id" : ISODate("' . $id . '")}';
+            }elseif($idType == 'integer'){
+                return '{"_id" : NumberInt("' . $id . '")}';
+            }elseif($idType == 'double'){
+                return '{"_id" : NumberLong("' . $id . '")}';
+            }else {           
                 return '{"_id" : "' . $id . '"}';
             }
         } else {
-            if ($idType == 'object') {
+            if ($idType == 'MongoId') {
                 return array('_id' => new MongoId($id));
-            } else {
+            }else if ($idType == 'MongoDate') {
+                list($sec,$usec)=  explode(',', $id);
+                return array('_id' => new MongoDate($sec,$usec));
+            }else if($idType=='integer'){
+                return array('_id' => new MongoInt32($id));
+            }else if($idType=='double'){
+                return array('_id' => new MongoInt64($id));
+            }else{
                 return array('_id' => $id);
             }
         }
