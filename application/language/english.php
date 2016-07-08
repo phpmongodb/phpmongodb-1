@@ -24,6 +24,7 @@ $language = array(
     'D_C' => '%s database created.',
     'E_D_N' => 'Enter Database Name',
     'D_D' => '%s database dropped.',
+    'D_A_E'  =>'Database with chosen name %s already exists',
     //Collection
     'COLLECTION' => 'Collection',
     'E_C_N' => 'Enter Collection name',

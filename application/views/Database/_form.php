@@ -16,12 +16,14 @@
     </div>
     <input type="hidden" id="pop-up-load" name="load" value="" />
     <input type="hidden" id="pop-up-old-database" name="old_db" value="" />
+    <input type="hidden" id="pop-up-db-exist" name="db-exist" value="" />
 </form> 
 
 <script type="text/javascript">
     $(document).ready(function() {
         $("a[data-delete-db]").click(function() {
             $("#pop-up-database").val($(this).attr("data-delete-db"));
+            $("#pop-up-db-exist").val($(this).attr("data-db-exist"));
             $("#pop-up-load").val("Database/Drop");
             $('#button-delete-database').show();
             $('#button-create-database').hide();
@@ -32,6 +34,7 @@
         $("a[data-edit-db]").click(function() {
             $("#pop-up-database").val($(this).attr("data-edit-db"));
             $("#pop-up-old-database").val($(this).attr("data-edit-db"));
+            $("#pop-up-db-exist").val($(this).attr("data-db-exist"));
             $("#pop-up-load").val("Database/Update");
             $('#button-delete-database').hide();
             $('#button-create-database').show();

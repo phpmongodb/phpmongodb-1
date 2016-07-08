@@ -11,6 +11,7 @@ class Collection extends Model {
         try {
             $options=array('capped' => $capped,'size' =>$size,'max' =>$max);
             $this->mongo->{$db}->createCollection($collection,$options);
+            $this->deleteTemporaryDb($db);
             if (!$capped) {
                 $this->mongo->{$db}->selectCollection($collection)->ensureIndex(array("_id" => 1));
             }

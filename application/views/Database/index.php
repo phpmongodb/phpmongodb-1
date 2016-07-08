@@ -25,14 +25,31 @@
                                 <td><?php echo $db['sizeOnDisk']; ?></td>
                                 <?php if (!Application::isReadonly()) { ?>
                                     <td>
-                                        <a href="#myModal" data-edit-db="<?php echo $db['name']; ?>" role="button" data-toggle="modal" class="icon-edit" title="Edit">&nbsp;</a>
-                                        <a href="#myModal" data-delete-db="<?php echo $db['name']; ?>" role="button" data-toggle="modal" class="icon-remove" title="Remove">&nbsp;</a>
+                                        <a href="#myModal" data-db-exist="yes" data-edit-db="<?php echo $db['name']; ?>" role="button" data-toggle="modal" class="icon-edit" title="Edit">&nbsp;</a>
+                                        <a href="#myModal" data-db-exist="yes" data-delete-db="<?php echo $db['name']; ?>" role="button" data-toggle="modal" class="icon-remove" title="Remove">&nbsp;</a>
                                     </td>
                                 <?php } ?>
                             </tr>
                             <?php
                         }
                     }
+                    
+                    ?>
+                    <?php
+                        foreach ($this->data['databases'] as $db) {
+                    ?>
+                             <tr>
+                                <td><a href="<?php echo Theme::URL('Collection/Index', array('db' => $db)); ?>"><?php echo $db; ?></i></td>
+                                <td>0</td>
+                                <?php if (!Application::isReadonly()) { ?>
+                                    <td>
+                                        <a href="#myModal" data-db-exist="no" data-edit-db="<?php echo $db; ?>" role="button" data-toggle="modal" class="icon-edit" title="Edit">&nbsp;</a>
+                                        <a href="#myModal" data-db-exist="no" data-delete-db="<?php echo $db; ?>" role="button" data-toggle="modal" class="icon-remove" title="Remove">&nbsp;</a>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                    <?php
+                        }
                     ?>
                 </tbody>
             </table>

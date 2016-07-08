@@ -24,6 +24,7 @@ $language = array(
     'D_C' => '%s Datenbank erstellt.',
     'E_D_N' => 'Enter Database Name',
     'D_D' => '%s Datenbank gelöscht.',
+    'D_A_E'  =>'Datenbank mit den gewählten Namen %s existiert bereits',
     //Collection
     'COLLECTION' => 'Collection',
     'E_C_N' => 'Geben Sie Collection Namen',

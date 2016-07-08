@@ -76,7 +76,6 @@ class Controller {
 
     protected function getInclude() {
         $included_files = get_included_files();
-
         $this->debug($included_files);
     }
 

@@ -69,10 +69,10 @@ class Model {
 //    }
 
 
-    public function find($db, $collection, $query, $fields = array(), $limit = false, $skip = false, $fromat = 'array',$ordeBy=array('_id'=>1)) {
+    public function find($db, $collection, $query, $fields = array(), $limit = false, $skip = false, $fromat = 'array', $ordeBy = array('_id' => 1)) {
         try {
             if ($fromat == 'json') {
-                $code = "return db.getCollection('" . $collection . "').find(" . $query . ").limit(" . $limit . ").skip(" . $skip . ").sort(".  json_encode($ordeBy).").toArray();";
+                $code = "return db.getCollection('" . $collection . "').find(" . $query . ").limit(" . $limit . ").skip(" . $skip . ").sort(" . json_encode($ordeBy) . ").toArray();";
                 $response = $this->mongo->{$db}->execute($code);
                 if ($response['ok'] == 1) {
                     return $response['retval'];
@@ -106,7 +106,41 @@ class Model {
         } catch (Exception $e) {
             return $e->getMessage();
         }
-       
+    }
+    
+    public function updateTemporaryDb($db, $oldDb) {
+        $seesion = Application::getInstance('Session');
+        $databases = (!empty($seesion->databases) ? $seesion->databases : array());
+        if (!empty($databases)) {
+            if (($key = array_search($oldDb, $databases)) !== false) {
+                unset($databases[$key]);
+            }
+            array_push($databases, $db);
+            $seesion->databases = array_unique($databases);
+            return $seesion->databases;
+        }
+        return FALSE;
+    }
+
+    public function saveTemporaryDb($db) {
+        $seesion = Application::getInstance('Session');
+        $databases = (!empty($seesion->databases) ? $seesion->databases : array());
+        array_push($databases, $db);
+        $seesion->databases = array_unique($databases);
+        return $seesion->databases;
+    }
+
+    public function deleteTemporaryDb($db) {
+        $seesion = Application::getInstance('Session');
+        $databases = (!empty($seesion->databases) ? $seesion->databases : array());
+        if (!empty($databases)) {
+            if (($key = array_search($db, $databases)) !== false) {
+                unset($databases[$key]);
+            }
+            $seesion->databases = array_unique($databases);
+            return $seesion->databases;
+        }
+        return FALSE;
     }
 
 }
