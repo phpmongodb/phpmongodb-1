@@ -40,8 +40,8 @@
                             $pkv=$pkv->sec.','.$pkv->usec;
                         }
                     }
-                    echo '&nbsp<input type="checkbox" name="ids[]" value="' . $this->data['record']['document'][$i]['_id'] . '" class="checkbox-remove" />';
-                    echo '&nbsp<a href="javascript:void(0)"  onclick="callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'format' => $format, 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '\')" class="icon-edit" title="Edit">' . I18n::t('') . '</a>';
+                    echo '&nbsp<input type="checkbox" name="ids[]" value="' . $pkv.'-'.$idType. '" class="checkbox-remove" />';
+                    echo '&nbsp<a href="javascript:void(0)"  onclick="callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $pkv, 'format' => $format, 'id_type' =>$idType)) . '\')" class="icon-edit" title="Edit">' . I18n::t('') . '</a>';
                     echo '&nbsp<a href="' . Theme::URL('Collection/DeleteRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' =>$pkv, 'id_type' =>$idType )) . '" class="icon-remove" title="Delete">' . I18n::t('') . '</a>';
                 }
                 echo "<pre>";

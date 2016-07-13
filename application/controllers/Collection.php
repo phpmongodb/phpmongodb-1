@@ -270,8 +270,9 @@ class CollectionController extends Controller {
             $this->setCollection();
             if ($this->request->getParam('type') == 'multiple') {
                 $ids = $this->request->getParam('ids');
-                foreach ($ids as $id) {
-                    $response = $this->getModel()->removeById($this->db, $this->collection, $id);
+                foreach ($ids as $v) {
+                    list($id,$idType)=  explode('-', $v);
+                    $response = $this->getModel()->removeById($this->db, $this->collection, $id,$idType);
                     if ($response['n'] == 1 && $response['ok'] == 1) {
                         $this->message->sucess = I18n::t('R_S_D');
                     } else {
