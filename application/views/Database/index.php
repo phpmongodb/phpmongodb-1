@@ -36,7 +36,8 @@
                     
                     ?>
                     <?php
-                        foreach ($this->data['databases'] as $db) {
+                        if(count($this->data['databases'])){
+                            foreach ($this->data['databases'] as $db) {
                     ?>
                              <tr>
                                 <td><a href="<?php echo Theme::URL('Collection/Index', array('db' => $db)); ?>"><?php echo $db; ?></i></td>
@@ -49,6 +50,7 @@
                                 <?php } ?>
                             </tr>
                     <?php
+                            }
                         }
                     ?>
                 </tbody>
