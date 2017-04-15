@@ -33,7 +33,7 @@ class Config {
     /**
      *
      * @var array
-     * @link http://in2.php.net/manual/en/mongoclient.construct.php (for more detail)
+     * @link http://php.net/manual/mongoclient.construct.php (for more detail)
      */
     public static $connection = array(
         'server' => "", //mongodb://localhost:27017
