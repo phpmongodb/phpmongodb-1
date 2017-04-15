@@ -4,9 +4,9 @@
  */
 function callAjax(url) {
     url = url + '&theme=false'
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $.get(url, function(data, status) {
+        $.get(url, function (data, status) {
             if (status == 'success') {
                 $("#middle-content").html(data);
             }
@@ -16,7 +16,7 @@ function callAjax(url) {
 }
 //insert
 var PMDI = {
-    appendTR: function() {
+    appendTR: function () {
         var trID = 'tr-indexes' + $('#tbl-fiedl-value tr').length;
         var tr = '<tr id="' + trID + '">';
         tr = tr + '<td><input type="text" class="input-xlarge" name="fields[]"></td>';
@@ -29,14 +29,14 @@ var PMDI = {
         $("#tbl-fiedl-value").append(tr);
         return false;
     },
-    removeTR: function(trID) {
+    removeTR: function (trID) {
         $("table#tbl-fiedl-value tr#" + trID).remove();
         return false;
     }
 }
 //indexes
 var PMDIN = {
-    appendTR: function() {
+    appendTR: function () {
         var trID = 'tr-indexes' + $('#tbl-create-indexes tr').length;
         var tr = '<tr id="' + trID + '">';
         tr = tr + '<td>&nbsp;</td>';
@@ -55,11 +55,11 @@ var PMDIN = {
         $("#tbl-create-indexes").append(tr);
         return false;
     },
-    removeTR: function(trID) {
+    removeTR: function (trID) {
         $("table#tbl-create-indexes tr#" + trID).remove();
         return false;
     },
-    isCheck: function(t) {
+    isCheck: function (t) {
         var checked = $(t).is(':checked');
         if (checked) {
             $('#drop_duplicates').show();
@@ -69,45 +69,45 @@ var PMDIN = {
     },
 }
 //indexes
-var PMDE = {
-    init: function() {
-        $("#custom_export").click(function() {
+var PMDIE = {
+    init: function () {
+        $("#custom_export").click(function () {
             $('#block_export_rows').slideDown();
             $('#block_export_output').slideDown();
             $('#block_export_data_dump_options').slideDown();
         });
-        $("#quick_export").click(function() {
+        $("#quick_export").click(function () {
             $('#block_export_rows').slideUp();
             $('#block_export_output').slideUp();
             $('#block_export_data_dump_options').slideUp();
         });
-        $("#dump_some_export").click(function() {
+        $("#dump_some_export").click(function () {
             $('#dump_some_row_export').show();
         });
-        $("#dump_all_export").click(function() {
+        $("#dump_all_export").click(function () {
             $('#dump_some_row_export').hide();
         });
-        $("#save_export").click(function() {
+        $("#save_export").click(function () {
             $('#save_output_to_a_file').show();
         });
-        $("#text_export").click(function() {
+        $("#text_export").click(function () {
             $('#save_output_to_a_file').hide();
         });
     }
 }
 //record
 var PMDR = {
-    init: function() {
-        $("#btn-insert").click(function() {
+    init: function () {
+        $("#btn-insert").click(function () {
             $('#container-insert').slideDown();
             $('#btn-insert').addClass('btn active');
         });
-        $("#add-field-value-row").click(function() {
+        $("#add-field-value-row").click(function () {
             $("#tbl-fiedl-value").append('<tr><td><input type="text" class="input-xlarge" name="fields[]"></td><td><textarea  rows="2" class="input-xlarge" name="values[]"></textarea></td></tr>');
             $('#remove-field-value-row').show();
             return false;
         });
-        $("#remove-field-value-row").click(function() {
+        $("#remove-field-value-row").click(function () {
             $('#tbl-fiedl-value tr:last').remove();
             var rowCount = $('#tbl-fiedl-value tr').length;
             if (rowCount === 2) {
@@ -115,7 +115,7 @@ var PMDR = {
             }
             return false;
         });
-        $("a[data-list-record]").click(function() {
+        $("a[data-list-record]").click(function () {
             var tab = $(this).attr("data-list-record");
             $('#record-array').hide();
             $('#record-document').hide();
@@ -136,31 +136,31 @@ var PMDR = {
 
         });
         //checkbox-remove select unselect checkbox
-        $('#check-all').click(function(event) {  //on click
+        $('#check-all').click(function (event) {  //on click
             if (this.checked) { // check select status
-                $('.checkbox-remove').each(function() { //loop through each checkbox
+                $('.checkbox-remove').each(function () { //loop through each checkbox
                     this.checked = true;  //select all checkboxes with class "checkbox-remove"              
                 });
             } else {
-                $('.checkbox-remove').each(function() { //loop through each checkbox
+                $('.checkbox-remove').each(function () { //loop through each checkbox
                     this.checked = false; //deselect all checkboxes with class "checkbox-remove"                      
                 });
             }
         });
-        $("#delete-all").click(function() {
+        $("#delete-all").click(function () {
             var ids = [];
-            $('input[class="checkbox-remove"]:checked').each(function() {
+            $('input[class="checkbox-remove"]:checked').each(function () {
                 ids.push(this.value);
-                
+
             });
-            if(ids.length!=0){
-               
-                var db=$( "#db-hidden" ).val();
-                var collection=$("#collection-hidden" ).val();
-                $.post("index.php?load=Collection/DeleteRecords&type=multiple&theme=false", {ids:ids,db:db,collection:collection}, function(response) {
+            if (ids.length != 0) {
+
+                var db = $("#db-hidden").val();
+                var collection = $("#collection-hidden").val();
+                $.post("index.php?load=Collection/DeleteRecords&type=multiple&theme=false", {ids: ids, db: db, collection: collection}, function (response) {
                     if (response) {
-                           //$("#middle-content").html(response);
-                           location.reload();
+                        //$("#middle-content").html(response);
+                        location.reload();
                     }
                 });
             }
@@ -168,7 +168,7 @@ var PMDR = {
     }
 }
 var PMDS = {
-    appendTR: function() {
+    appendTR: function () {
         var trID = 'tr-indexes' + $('#tbl-search-col-val tr').length;
         var tr = '<tr id="' + trID + '">';
         tr = tr + '<td><select name="query[]" style="width: auto;"><option value="$and">AND</option><option value="$or">OR</option></select></td>';
@@ -192,11 +192,11 @@ var PMDS = {
         $("#tbl-search-col-val").append(tr);
         return false;
     },
-    removeTR: function(trID) {
+    removeTR: function (trID) {
         $("table#tbl-search-col-val tr#" + trID).remove();
         return false;
     },
-    appendOrderBy: function() {
+    appendOrderBy: function () {
         var trID = 'tr-indexes' + $('#tbl-order-by tr').length;
         var tr = '<tr id="' + trID + '">';
         tr = tr + '<td><input type="text" class="input-xlarge" name="order_by[]"  value="" placeholder="Enter Attribute"></td><td><select style="width: auto;" name="orders[]"><option value="1">ASC</option><option value="-1">DESC</option></select></td>';
@@ -208,8 +208,47 @@ var PMDS = {
         $("#tbl-order-by").append(tr);
         return false;
     },
-    removeOrderBy: function(trID) {
+    removeOrderBy: function (trID) {
         $("table#tbl-order-by tr#" + trID).remove();
         return false;
     }
-}    
+}
+var PMDE = {
+    appendBox: function () {
+        var trID = 'tr-indexes' + $('#tbl-fiedl-value tr').length;
+        var tr = '<tr id="' + trID + '">';
+        tr = tr + '<td>Argument [JSON]</td>';
+        tr = tr + '<td><textarea  rows="2" class="input-xlarge" name="args[]"></textarea></td>';
+        tr = tr + '<td>';
+        tr = tr + '&nbsp;<a href="javascript:void(0)" onclick="PMDE.appendBox();" class="icon-plus" title="Add">&nbsp;</a>&nbsp;';
+        tr = tr + "<a href=\"javascript:void(0)\" onclick=\"PMDI.removeTR('" + trID + "');\" class=\"icon-minus\" title=\"Remove\">&nbsp;</a>";
+        tr = tr + '</td>';
+        tr = tr + '</tr>';
+        $("#tbl-fiedl-value").append(tr);
+        return false;
+
+    },
+    execute: function () {
+        var url = $('#execute-form').attr("action");
+        var data = {};
+        data['db'] = $("select[id='execute_db']").val();
+        data['code'] = $("textarea[id='execute_code']").val();
+        data['args']=$("textarea[name='args\\[\\]']").map(function(){return $(this).val();}).get();
+        //var values = $("textarea[id='args']").map(function(){return $(this).val();}).get();
+
+        $.post(url, data).done(function (res) {
+            $('#execute-response').html(res);
+        });
+    }
+}
+function testResults() {
+    var url = $('#execute-form').attr("action");
+    var data = {};
+    data['db'] = $('#execute_db').val();
+    data['code'] = $('#execute_code').val();
+
+    $.post(url, data).done(function (res) {
+        $('#execute-response').html(res);
+    });
+
+}

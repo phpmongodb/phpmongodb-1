@@ -21,11 +21,11 @@ class DatabaseController extends Controller {
 
     public function Index() {
         $dbList = $this->getModel()->listDatabases();
+        $seesion = Application::getInstance('Session');
         $data = array(
-            'dbList' => $dbList
+            'dbList' => $dbList,
+            'databases' => $seesion->databases
         );
-
-
         $this->display('index', $data);
     }
 
@@ -38,13 +38,19 @@ class DatabaseController extends Controller {
         $this->isReadonly();
         $db = urldecode($this->request->getParam('db'));
         $oldDb = urldecode($this->request->getParam('old_db'));
+        $dbExist = urldecode($this->request->getParam('db-exist'));
         if (!empty($db) || !empty($oldDb)) {
-            $response = $this->getModel()->renameDatabase($oldDb, $db);
-            if ($response['ok'] == 1)
-                $this->message->sucess = I18n::t('D_R_S');
-            else
-                $this->message->error = $response;
-            
+            if ($dbExist === 'no') {
+                if ($this->getModel()->updateTemporaryDb($db, $oldDb)) {
+                    $this->message->sucess = I18n::t('D_R_S');
+                }
+            } else {
+                $response = $this->getModel()->renameDatabase($oldDb, $db);
+                if ($response['ok'] == 1)
+                    $this->message->sucess = I18n::t('D_R_S');
+                else
+                    $this->message->error = $response;
+            }
         } else {
             $this->message->error = I18n::t('I_D_N');
         }
@@ -54,13 +60,18 @@ class DatabaseController extends Controller {
     public function Save() {
         $this->isReadonly();
         $db = $this->request->getParam('db');
-
         if (!empty($db)) {
-            $response = $this->getModel()->createDB($db);
-            if ($response['ok'] == 1)
-                $this->message->sucess = I18n::t('D_C', $db);
-            else
-                $this->message->error = $response;
+            if (!$this->getModel()->isDbExist($db)) {
+                $response = $this->getModel()->createDB($db);
+                if ($response['ok'] == 1) {
+                    $this->message->sucess = I18n::t('D_C', $db);
+                    $this->getModel()->saveTemporaryDb($db);
+                } else {
+                    $this->message->error = $response['errmsg'];
+                }
+            }else{
+                $this->message->error = I18n::t('D_A_E',$db);
+            }
         } else {
             $this->message->error = I18n::t('E_D_N');
         }
@@ -70,12 +81,19 @@ class DatabaseController extends Controller {
     public function Drop() {
         $this->isReadonly();
         $db = $this->request->getParam('db');
+        $dbExist = urldecode($this->request->getParam('db-exist'));
         if (!empty($db)) {
-            $response = $this->getModel()->dropDatabase($db);
-            if ($response['ok'] == 1)
-                $this->message->sucess = I18n::t('D_D', $db);
-            else
-                $this->message->error = $response;
+            if ($dbExist === 'no') {
+                if ($this->getModel()->deleteTemporaryDb($db)) {
+                    $this->message->sucess = I18n::t('D_D', $db);
+                }
+            } else {
+                $response = $this->getModel()->dropDatabase($db);
+                if ($response['ok'] == 1)
+                    $this->message->sucess = I18n::t('D_D', $db);
+                else
+                    $this->message->error = $response;
+            }
         }
         $this->gotoDatabse();
     }

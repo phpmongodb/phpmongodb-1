@@ -24,6 +24,7 @@ $language = array(
     'D_C' => '%s database created.',
     'E_D_N' => 'Enter Database Name',
     'D_D' => '%s database dropped.',
+    'D_A_E'  =>'Database with chosen name %s already exists',
     //Collection
     'COLLECTION' => 'Collection',
     'E_C_N' => 'Enter Collection name',
@@ -92,6 +93,7 @@ $language = array(
     'SIZE' => 'Size',
     'MAX' => 'Max',
     'CREATE' => 'Create',
+    'N_R_F'=>'No Record Found',
     //application/views/Collection/indexes.php
     'UNIQUE' => 'Unique',
     'FIELDS' => 'Fields',
@@ -107,6 +109,7 @@ $language = array(
     'Y_C_N_U_C_F_C_N' => 'You can not use characters /\. "*<>:|? for collection name',
     'A_D_I_S' => 'All data import successfully.',
     'E_U_F' => 'Error: unexpected fail',
+    
 );
 ?>
 

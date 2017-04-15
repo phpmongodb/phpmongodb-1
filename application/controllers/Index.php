@@ -35,7 +35,7 @@ class IndexController extends Controller{
             'status'=>$status,
             'cryptography'=>new Cryptography(),
         );
-        //$this->display('status', $data);
+        $this->display('status', $data);
         
     }
 }

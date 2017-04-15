@@ -1,4 +1,4 @@
-<?php if (!Application::isReadonly()) { ?>
+ <?php if (!Application::isReadonly() && !empty($this->data['total'])) { ?>
 <div class="nav-sub-panel" >
     <label><input type="checkbox" name="check-all" id="check-all" value="" style="margin: 0"> Check All/ Uncheck All</label>
     <a class="icon-remove" title="Delete" href="javascript:void(0)" id="delete-all" >Delete</a>
@@ -32,12 +32,24 @@
                 ++$i;
 
                 if (isset($this->data['record']['document'][0]['_id']) && !Application::isReadonly()) {
-                    echo '&nbsp<input type="checkbox" name="ids[]" value="' . $this->data['record']['document'][$i]['_id'] . '" class="checkbox-remove" />';
-                    echo '&nbsp<a href="javascript:void(0)"  onclick="callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'format' => $format, 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '\')" class="icon-edit" title="Edit">' . I18n::t('') . '</a>';
-                    echo '&nbsp<a href="' . Theme::URL('Collection/DeleteRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $this->data['record']['document'][$i]['_id'], 'id_type' => gettype($this->data['record']['document'][$i]['_id']))) . '" class="icon-remove" title="Delete">' . I18n::t('') . '</a>';
+                    $idType=gettype($this->data['record']['document'][$i]['_id']);
+                    $pkv=$this->data['record']['document'][$i]['_id'];
+                    if($idType=='object'){
+                        $idType=  get_class($this->data['record']['document'][$i]['_id']);
+                        if($idType=='MongoDate'){                            
+                            $pkv=$pkv->sec.','.$pkv->usec;
+                        }
+                    }
+                    echo '&nbsp<input type="checkbox" name="ids[]" value="' . $pkv.'-'.$idType. '" class="checkbox-remove" />';
+                    echo '&nbsp<a href="javascript:void(0)"  onclick="callAjax(\'' . Theme::URL('Collection/EditRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' => $pkv, 'format' => $format, 'id_type' =>$idType)) . '\')" class="icon-edit" title="Edit">' . I18n::t('') . '</a>';
+                    echo '&nbsp<a href="' . Theme::URL('Collection/DeleteRecord', array('db' => $this->db, 'collection' => $this->collection, 'id' =>$pkv, 'id_type' =>$idType )) . '" class="icon-remove" title="Delete">' . I18n::t('') . '</a>';
                 }
                 echo "<pre>";
-                print_r($cursor);
+                if($format=='document'){
+                    echo htmlentities(print_r($cursor,TRUE), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                }else{
+                    print_r($cursor);
+                }
                 echo "</pre>";
             }
             ?>
@@ -46,8 +58,11 @@
         </div>
         <?php
     }
+    if(empty($this->data['total'])){
+        echo I18n::p('N_R_F');
+    }
     ?>
     
 </div>
-   
-<?php Theme::pagination($this->getModel()->totalRecord($this->db, $this->collection)); ?>
+
+<?php Theme::pagination($this->data['total']); ?>

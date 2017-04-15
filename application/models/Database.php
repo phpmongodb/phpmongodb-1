@@ -29,10 +29,9 @@ class Database extends Model {
                 } catch (Exception $e) {
                     return $e->getMessage();
                 }
-            }else{
-                return isset($response['errmsg'])?$response['errmsg']:'Report Bug Erro Code :PMD-RD-32';
+            } else {
+                return isset($response['errmsg']) ? $response['errmsg'] : 'Report Bug Erro Code :PMD-RD-32';
             }
-            
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -41,13 +40,25 @@ class Database extends Model {
     public function repair($db) {
         return $this->mongo->{$db}->repair();
     }
-    public function execute($db,$code,array $args = array()) {
+
+    public function execute($db, $code, array $args = array()) {
         try {
-        return $this->mongo->{$db}->execute($code);
+            return $this->mongo->{$db}->execute($code, $args);
         } catch (Exception $e) {
 
             return $e->getMessage();
         }
+    }
+
+    public function isDbExist($db) {
+        $databases = $this->listDatabases();
+        foreach ($databases['databases'] as $database){
+            $dbList[]=$database['name'];
+        }
+        $seesion = Application::getInstance('Session');
+        $tmpDbList = (!empty($seesion->databases) ? $seesion->databases : array());
+        $list=array_merge($dbList, $tmpDbList);
+        return (in_array($db, $list)?TRUE:FALSE);
     }
 
 }

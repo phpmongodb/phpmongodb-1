@@ -124,7 +124,6 @@ class CollectionController extends Controller {
         }
         $response = $this->getModel()->createIndex($this->db, $this->collection, $key, $options);
 
-        //$this->debug($response);
         $this->request->redirect(Theme::URL('Collection/Indexes', array('db' => $this->db, 'collection' => $this->collection)));
     }
 
@@ -151,7 +150,7 @@ class CollectionController extends Controller {
         }
         $query = $cryptography->executeAND($query);
         $query = $cryptography->executeOR($query);
-        //$this->debug($query);
+ 
         return $query[0];
     }
 
@@ -180,12 +179,12 @@ class CollectionController extends Controller {
             $record = array();
             $skip = $this->request->getParam('start', 0);
             $limit = $this->request->getParam('limit', 10);
-            $type = $this->request->getParam('type', 'array');
+            $type = strtolower($this->request->getParam('type', 'array'));
             $query = array();
             $fields = array();
 
             if ($this->request->getParam('search', false) && $this->request->getParam('query', false)) {
-                switch (strtolower($this->request->getParam('type'))) {
+                switch ($type) {
                     case 'fieldvalue':
                         $query = $this->getQuery($this->request->getParam('query'));
                         break;
@@ -201,17 +200,19 @@ class CollectionController extends Controller {
                 }
             }
             if (!$this->isError()) {
-                $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type);
-
                 $ordeBy = $this->getSort($this->request->getParam('order_by', false), $this->request->getParam('orders', false));
-                if ($ordeBy)
-                    $cursor->sort($ordeBy);
-
+                $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip, $type,$ordeBy);
+                if($type=='json'){
+                    $total=$this->getModel()->totalRecord($this->db, $this->collection, $query,$type);
+                }else{
+                    $total=$cursor->count();
+                }
+                
                 $record = $cryptography->decode($cursor, $type);
             }
             $this->application->view = 'Collection';
             $format = array('json', 'array', 'document');
-            $this->display('record', array('record' => $record, 'format' => $format));
+            $this->display('record', array('record' => $record, 'format' => $format,'total'=>$total));
         } else {
             $this->request->redirect($this->url);
         }
@@ -269,8 +270,9 @@ class CollectionController extends Controller {
             $this->setCollection();
             if ($this->request->getParam('type') == 'multiple') {
                 $ids = $this->request->getParam('ids');
-                foreach ($ids as $id) {
-                    $response = $this->getModel()->removeById($this->db, $this->collection, $id);
+                foreach ($ids as $v) {
+                    list($id,$idType)=  explode('-', $v);
+                    $response = $this->getModel()->removeById($this->db, $this->collection, $id,$idType);
                     if ($response['n'] == 1 && $response['ok'] == 1) {
                         $this->message->sucess = I18n::t('R_S_D');
                     } else {
@@ -306,7 +308,6 @@ class CollectionController extends Controller {
     }
 
     public function SaveRecord() {
-
         $this->setDB();
         $this->setCollection();
         if ($this->validation($this->db, $this->collection)) {
@@ -458,7 +459,7 @@ class CollectionController extends Controller {
 
     protected function quickExport() {
         $cursor = $this->getModel()->find($this->db, $this->collection);
-        $file = new File('/tmp/', $this->collection . '.json');
+        $file = new File(sys_get_temp_dir(), $this->collection . '.json');
         $file->delete();
         $cryptography = new Cryptography();
         while ($cursor->hasNext()) {
@@ -481,7 +482,7 @@ class CollectionController extends Controller {
         $skip = $this->request->getParam('skip');
         $limit = empty($limit) ? false : $limit;
         $skip = empty($skip) ? false : $skip;
-        $path = '/tmp/';
+        $path = sys_get_temp_dir();
         $fileName = $this->request->getParam('file_name');
         $fileName = (empty($fileName) ? $this->collection : $fileName) . '.json';
         $cursor = $this->getModel()->find($this->db, $this->collection, $query, $fields, $limit, $skip);
