@@ -37,6 +37,10 @@ class Theme {
             self::$homeUri .= "s";
         }
         self::$homeUri .= "://";
+
+        if ($_SERVER["SERVER_NAME"] == '_') { //Fix nginx default server_name '_'
+            $_SERVER["SERVER_NAME"] = $_SERVER["HTTP_HOST"];
+        }
         if ($_SERVER["SERVER_PORT"] != "80") {
             self::$homeUri .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
         } else {
