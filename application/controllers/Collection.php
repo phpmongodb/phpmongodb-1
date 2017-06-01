@@ -556,14 +556,18 @@ class CollectionController extends Controller {
             if ($_FILES['import_file']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['import_file']['tmp_name'])) { //checks that file is uploaded
                 $handle = @fopen($_FILES['import_file']['tmp_name'], "r");
                 if ($handle) {
+                    $aggRecord = "";
                     while (($record = fgets($handle)) !== false) {
-                        $response = $this->getModel()->insert($this->db, $this->collection, $record, 'json');
-                        if ($response['ok'] == 1) {
-                            $this->message->sucess = I18n::t('A_D_I_S');
-                        } else {
-                            $this->message->error = $response['errmsg'];
-                        }
+                        $aggRecord .= $record;
                     }
+
+                    $response = $this->getModel()->insert($this->db, $this->collection, $aggRecord, 'json');
+                    if ($response['ok'] == 1) {
+                        $this->message->success = I18n::t('A_D_I_S');
+                    } else {
+                        $this->message->error = $response['errmsg'];
+                    }
+
                     if (!feof($handle)) {
                         $this->message->error = I18n::t('E_U_F');
                     }
