@@ -25,7 +25,9 @@ class Session extends Data {
 
     public function start() {
         ini_set( 'session.cookie_httponly', 1 );
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start ();
+        }
     }
 
     public function __isset($name) {
