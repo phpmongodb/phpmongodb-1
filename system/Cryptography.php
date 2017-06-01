@@ -48,18 +48,20 @@ class Cryptography {
 
     public function arrayToString($array, $tab = "") {
         $string = 'array(';
-        foreach ($array as $key => $value) {
-            $string.="\n\t" . $tab;
-            if (gettype($value) === 'array') {
-                $string.="\"$key\"" . '=>' . $this->arrayToString($value, "$tab\t");
-            } else if (is_object($value)) {
-                $string.="\"$key\"" . '=>' . $this->objectToString($value);
-            } else if (is_numeric($value)) {
-                $string.="\"$key\"" . '=>' . $value;
-            } else {
-                $string.="\"$key\"" . '=>' . "\"$value\"";
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                $string.="\n\t" . $tab;
+                if (gettype($value) === 'array') {
+                    $string.="\"$key\"" . '=>' . $this->arrayToString($value, "$tab\t");
+                } else if (is_object($value)) {
+                    $string.="\"$key\"" . '=>' . $this->objectToString($value);
+                } else if (is_numeric($value)) {
+                    $string.="\"$key\"" . '=>' . $value;
+                } else {
+                    $string.="\"$key\"" . '=>' . "\"$value\"";
+                }
+                $string.=',';
             }
-            $string.=',';
         }
         return $string.="\n" . $tab . ')';
     }
@@ -245,15 +247,15 @@ class Cryptography {
                 }
             }
         }
-  
-            
+
+
             $array=@eval($string);
             if (error_get_last())
                 return false;
             return $array;
-       
+
     }
-    
+
     public function executeAND($query) {
         $key = array_search('$and', $query);
 
@@ -333,22 +335,22 @@ class Cryptography {
         return $query;
     }
 
-   
+
     public function mixedToJson($data=NULL,$highlight=FALSE){
         if(is_array($data)){
             $json= $this->arrayToJSON($data);
         }elseif (is_object($data)) {
             $json= $this->objectToJSON($data);
-        }else if(is_bool($data)){ 
+        }else if(is_bool($data)){
             $json=$data?'true':'false';
         }else {
             $json= $data;
-            
+
         }
         if($highlight )
             $json=$this->highlight ($json);
         return $json;
-        
+
     }
      public function debug($a) {
         echo "<pre>";
